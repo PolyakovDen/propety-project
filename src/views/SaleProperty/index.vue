@@ -1,0 +1,38 @@
+<template>
+  <property-template
+    title="Продажа доходной недвижимости"
+    :objects="objects"
+    description="Доходная недвижимость один из лучших инструментов для сохранения и приумножения вашего капитала.
+      Правильно инвестируя в недвижимость вы получаете пассивный доход от сдачи в аренду с минимальными рисками.
+      Как говорят наши сотрудники - «работает тот, кому нечего сдать в аренду»"
+  />
+</template>
+
+<script>
+import PropertyTemplate from "../../components/PropertyTemplate";
+
+export default {
+  components: {
+    PropertyTemplate
+  },
+  data() {
+    return {
+      objects: []
+    };
+  },
+  created() {
+    this.getObjects();
+  },
+  methods: {
+    getObjects() {
+      this.axios
+        .get(
+          "common/real-estate-featured?rec_ids[]=5&ct=1&realized=false&arc=false"
+        )
+        .then(res => {
+          this.objects = res.data.data;
+        });
+    }
+  }
+};
+</script>
