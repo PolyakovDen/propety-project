@@ -273,7 +273,7 @@ export default {
     getObjectById() {
       const objectId = this.$route.params.id;
       this.axios
-        .get(`api/common/real-estate/${objectId}`)
+        .get(`common/real-estate/${objectId}`)
         .then(res => {
           this.formData.title = res.data.title;
           this.formData.description = res.data.description;
