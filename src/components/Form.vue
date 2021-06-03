@@ -185,20 +185,19 @@
           outlined
           dense
           multiple
+          @change="getMainImages"
           label="Добавить фотографии"
         ></v-file-input>
 
-        <!--        @change="getMainImages"-->
-
-        <!--        <div v-if="mainImages" class="images">-->
-        <!--          <img-->
-        <!--            class="image"-->
-        <!--            v-for="(image, i) in mainImages"-->
-        <!--            :key="i"-->
-        <!--            :src="image"-->
-        <!--            alt=""-->
-        <!--          />-->
-        <!--        </div>-->
+        <div v-if="mainImages" class="images">
+          <img
+            class="image"
+            v-for="(image, i) in mainImages"
+            :key="i"
+            :src="image"
+            alt=""
+          />
+        </div>
 
         <v-btn
           :disabled="!valid"
@@ -336,38 +335,24 @@ export default {
         this.mainImageUrl = URL.createObjectURL(this.mainImage);
       }
     },
-    // getMainImages(e) {
-    //   if (e) {
-    //     for (var i = 0; i < this.images; i++) {
-    //
-    //     }
-    //   }
-    // },
+    getMainImages(e) {
+      if (e) {
+        this.mainImages = this.images.map(el => {
+          return URL.createObjectURL(el);
+        });
+      }
+    },
     deleteMainImage() {
       this.mainImageUrl = null;
     },
     validate() {
       if (this.$refs.form.validate()) {
-        let mainImageFD = new FormData();
-        console.log(this.mainImage);
-        mainImageFD.append("file", this.mainImage);
-
-        let imagesFD = new FormData();
-        for (var i = 0; i < this.images.length; i++) {
-          let image = this.images[i];
-
-          imagesFD.append("files[" + i + "]", image);
-        }
-        // Array.prototype.forEach.call(this.images, f =>
-        //   imagesFD.append("files", f)
-        // );
-
         this.$emit(
           "click",
           this.formData,
           this.pricePerMeter,
-          mainImageFD,
-          imagesFD
+          this.mainImage,
+          this.images
         );
       }
     }
@@ -391,5 +376,10 @@ export default {
   display: block;
   margin: 0 auto;
   margin-bottom: 20px;
+  margin-right: 15px;
+}
+.images {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

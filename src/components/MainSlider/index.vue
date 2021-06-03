@@ -9,7 +9,7 @@
     />
     <swiper class="swiper" :options="swiperOption">
       <swiper-slide v-for="(slide, index) in slides" :key="index">
-        <img :src="slides.img" />
+        <img :src="`${imgUrl}/${slide.main_image_url}`" />
         <p class="text" @click="redirectToObjectDetails(slide.id)">
           {{ slide.title }}
         </p>
@@ -60,10 +60,12 @@ export default {
         }
       },
       slides: [],
-      showSlides: false
+      showSlides: false,
+      imgUrl: null
     };
   },
   created() {
+    this.imgUrl = process.env.VUE_APP_IMG_URL;
     this.getObjectsInSlider();
   },
   methods: {
@@ -72,8 +74,6 @@ export default {
         .get("common/real-estate-featured?show_in_slider=true")
         .then(res => {
           this.slides = res.data.data;
-          this.slides.img =
-            "https://images.unsplash.com/photo-1453831362806-3d5577f014a4?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ";
           this.showSlides = true;
         })
         .catch(e => {

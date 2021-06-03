@@ -57,6 +57,9 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: "Все объекты"
+  },
   data() {
     return {
       search: "",

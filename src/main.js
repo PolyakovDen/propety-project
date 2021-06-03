@@ -7,6 +7,7 @@ import VueAxios from "vue-axios";
 import vuetify from "./plugins/vuetify";
 import "./plugins/vue-mask";
 import VueSocialSharing from "vue-social-sharing";
+import VueMeta from "vue-meta";
 
 const baseURL = process.env.VUE_APP_API_URL;
 
@@ -14,6 +15,8 @@ Vue.use(VueSocialSharing);
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = baseURL;
 Vue.config.productionTip = false;
+
+Vue.use(VueMeta);
 
 new Vue({
   router,

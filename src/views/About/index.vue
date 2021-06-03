@@ -15,6 +15,9 @@ export default {
     Header,
     AboutCompany,
     Footer
+  },
+  metaInfo: {
+    title: "О компании"
   }
 };
 </script>

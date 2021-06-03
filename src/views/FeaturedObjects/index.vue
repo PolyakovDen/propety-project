@@ -9,6 +9,9 @@ export default {
   components: {
     PropertyTemplate
   },
+  metaInfo: {
+    title: "Избранные объекты"
+  },
   computed: {
     featuredObjects() {
       return this.$store.getters.getFeaturedObjects;

@@ -22,8 +22,6 @@
             :title="sharing.title"
             :description="sharing.description"
             :quote="sharing.quote"
-            :hashtags="sharing.hashtags"
-            :twitterUser="sharing.twitterUser"
           >
             <div class="titles">
               <v-icon size="45" color="rgb(33, 150, 243)">{{
@@ -31,6 +29,20 @@
               }}</v-icon>
             </div>
           </ShareNetwork>
+          <a
+            class="sharing-item"
+            :href="viber"
+            target="_blank"
+            @click="viberSharingLink"
+          >
+            <img
+              class="sharing-item"
+              src="../../assets/share-vb.png"
+              alt="Viber"
+              width="45"
+              height="45"
+            />
+          </a>
         </div>
       </v-card>
     </v-dialog>
@@ -39,17 +51,19 @@
 
 <script>
 export default {
+  props: {
+    object: {
+      type: Object
+    }
+  },
   data() {
     return {
       dialog: false,
       sharing: {
-        url: "https://news.vuejs.org/issues/180",
-        title:
-          "Say hi to Vite! A brand new, extremely fast development setup for Vue.",
-        description:
-          'This week, I’d like to introduce you to "Vite", which means "Fast". It’s a brand new development setup created by Evan You.',
-        quote: "The hot reload is so fast it's near instant. - Evan You",
-        hashtags: "AKM"
+        url: null,
+        description: null,
+        title: null,
+        quote: null
       },
       networks: [
         {
@@ -72,8 +86,30 @@ export default {
           name: "Whatsapp",
           icon: "mdi-whatsapp"
         }
-      ]
+      ],
+      viber: null
     };
+  },
+  created() {
+    this.sharing.url = window.location.href;
+    this.sharing.title = this.object.title;
+    if (!this.object.has_commision) {
+      this.sharing.description = `Адрес: ${this.object.address}%0AПлощадь: ${this.object.square} м/2%0A%0AБез Комисии!`;
+      this.sharing.quote = `Адрес: ${this.object.address}  Площадь: ${this.object.square} м/2  Без Комисии!`;
+    } else {
+      this.sharing.description = `Адрес: ${this.object.address}%0AПлощадь: ${this.object.square} м/2}`;
+      this.sharing.quote = `Адрес: ${this.object.address}  Площадь: ${this.object.square} м/2}`;
+    }
+  },
+  methods: {
+    viberSharingLink() {
+      if (!this.object.has_commision) {
+        this.sharing.description = `Адрес: ${this.object.address}%0AПлощадь: ${this.object.square} м/2%0A%0AБез Комисии!`;
+      } else {
+        this.sharing.description = `Адрес: ${this.object.address}%0AПлощадь: ${this.object.square} м/2}`;
+      }
+      this.viber = `viber://forward?text=${this.object.title}%0D%0A${this.sharing.url}%0D%0A${this.sharing.description}`;
+    }
   }
 };
 </script>

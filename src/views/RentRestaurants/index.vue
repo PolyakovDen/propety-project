@@ -16,6 +16,9 @@ export default {
   components: {
     PropertyTemplate
   },
+  metaInfo: {
+    title: "Аренда ресторанов"
+  },
   data() {
     return {
       objects: []

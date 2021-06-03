@@ -57,6 +57,9 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: "Архивированные объекты"
+  },
   data() {
     return {
       search: "",

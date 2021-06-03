@@ -5,7 +5,7 @@
       <v-img
         height="200"
         class="object-img"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        :src="`${imgUrl}/${object.main_image_url}`"
       />
       <v-tooltip v-if="$route.path !== '/featured-objects'" bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -48,6 +48,14 @@
 export default {
   props: {
     object: {}
+  },
+  data () {
+    return {
+      imgUrl: null
+    }
+  },
+  created() {
+    this.imgUrl = process.env.VUE_APP_IMG_URL;
   },
   computed: {
     objectPrice() {

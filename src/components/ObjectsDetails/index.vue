@@ -41,13 +41,13 @@
                   <p v-if="!object.realized">
                     <b class="mr-4">E-mail:</b>{{ object.email }}
                   </p>
-                  <ShareButton v-if="!object.realized" />
+                  <ShareButton v-if="!object.realized" :object="object" />
                 </div>
               </div>
             </div>
           </v-col>
           <v-col cols="12" xl="4" lg="6" md="5" sm="12">
-            <ObjectsGallery :slides="slides" />
+            <ObjectsGallery :slides="objectImages()" />
           </v-col>
         </v-row>
       </v-container>
@@ -68,15 +68,6 @@ export default {
   },
   data() {
     return {
-      slides: [
-        "https://images.unsplash.com/photo-1453831362806-3d5577f014a4?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1496412705862-e0088f16f791?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1472926373053-51b220987527?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ",
-        "https://images.unsplash.com/photo-1497534547324-0ebb3f052e88?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-      ],
       object: null
     };
   },
@@ -106,6 +97,19 @@ export default {
         .then(res => {
           this.object = res.data;
         });
+    },
+    objectImages() {
+      if (this.object && this.object.images && this.object.images.length > 0) {
+        const images = this.object.images.map(el => el.url);
+        images.push(this.object.main_image_url);
+
+        return images;
+      } else {
+        const image = [];
+        image.push(this.object.main_image_url);
+
+        return image;
+      }
     }
   }
 };

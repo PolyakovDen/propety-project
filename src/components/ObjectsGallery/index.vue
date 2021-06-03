@@ -7,7 +7,7 @@
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
         <div class="swiper-zoom-container" @click="openCarousel(index)">
-          <img :src="slide" />
+          <img :src="`${imgUrl}/${slide}`" />
         </div>
       </swiper-slide>
     </swiper>
@@ -17,7 +17,7 @@
       ref="swiperThumbs"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
-        <img :src="slide" />
+        <img :src="`${imgUrl}/${slide}`" />
       </swiper-slide>
     </swiper>
 
@@ -29,7 +29,7 @@
         show-arrows-on-hover
       >
         <v-carousel-item v-for="(slide, index) in slides" :key="index">
-          <img class="carousel-img" :src="slide" />
+          <img class="carousel-img" :src="`${imgUrl}/${slide}`" />
         </v-carousel-item>
       </v-carousel>
     </v-dialog>
@@ -70,8 +70,12 @@ export default {
         }
       },
       isCarouselOpened: false,
-      carousel: 0
+      carousel: 0,
+      imgUrl: null
     };
+  },
+  created() {
+    this.imgUrl = process.env.VUE_APP_IMG_URL;
   },
   mounted() {
     this.$nextTick(() => {

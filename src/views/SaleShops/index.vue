@@ -17,6 +17,9 @@ export default {
   components: {
     PropertyTemplate
   },
+  metaInfo: {
+    title: "Продажа магазинов"
+  },
   data() {
     return {
       objects: []

@@ -9,6 +9,9 @@ export default {
   components: {
     PropertyTemplate
   },
+  metaInfo: {
+    title: "Реализованные объекты"
+  },
   data() {
     return {
       objects: []

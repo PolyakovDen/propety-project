@@ -10,6 +10,9 @@ export default {
   components: {
     Form
   },
+  metaInfo: {
+    title: "Добавить объект"
+  },
   data() {
     return {
       objectId: null
@@ -55,35 +58,31 @@ export default {
       await this.setImages(images);
     },
     async setMainImage(mainImage) {
-      await this.axios.post(
-        "admin/set-rs-main-img",
-        {
-          real_estate_id: this.objectId,
-          img: mainImage
-        },
-        {
+      let data = new FormData();
+      data.append("real_estate_id", this.objectId);
+      data.append("img", mainImage);
+      await this.axios.post("admin/set-rs-main-img", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${this.token}`
+        }
+      });
+    },
+    async setImages(images) {
+      let data = new FormData();
+      data.append("real_estate_id", this.objectId);
+      for (var i = 0; i < images.length; i++) {
+        let image = images[i];
+
+        data.append("images[]", image);
+      }
+      await this.axios
+        .post("admin/upload-rs-imgs", data, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${this.token}`
           }
-        }
-      );
-    },
-    async setImages(images) {
-      await this.axios
-        .post(
-          "admin/upload-rs-imgs",
-          {
-            real_estate_id: this.objectId,
-            img: images
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${this.token}`
-            }
-          }
-        )
+        })
         .then(() => {
           this.$router.push({ name: "allObjects" });
         });
