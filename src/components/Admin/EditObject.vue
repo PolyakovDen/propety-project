@@ -1,9 +1,17 @@
 <template>
   <v-card class="pa-5 ma-7">
     <v-card-title class="justify-center">
-      <h3>Добавить объекты:</h3>
+      <h3>Редактировать объект:</h3>
     </v-card-title>
-    <v-card-text class="justify-center">
+    <v-card-text v-if="showPreloader" class="mt-16 mb-16 text-center">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="#1e2d3b"
+        indeterminate
+      />
+    </v-card-text>
+    <v-card-text v-else class="justify-center">
       <v-form ref="form" v-model="formData.valid" lazy-validation class="form">
         <v-text-field
           v-model="formData.title"
@@ -320,7 +328,8 @@ export default {
     mainImages: null,
     showImageInput: false,
     showImagesInput: false,
-    imgUrl: null
+    imgUrl: null,
+    showPreloader: true
   }),
   async created() {
     this.imgUrl = process.env.VUE_APP_IMG_URL;
@@ -380,6 +389,8 @@ export default {
           if (!this.mainImage) {
             this.showImageInput = true;
           }
+
+          this.showPreloader = false;
         })
         .catch(e => {
           console.log(e);

@@ -2,8 +2,14 @@
   <div class="wrapper-main">
     <Header />
     <MainSection :show-slider="true" title="Комерческая недвижимость" />
-    <MainActualObjects :objects="actualObjects" />
-    <MainRealizedObjects :objects="realizedObjects" />
+    <MainActualObjects
+      :objects="actualObjects"
+      :show-preloader="showActualPreloader"
+    />
+    <MainRealizedObjects
+      :objects="realizedObjects"
+      :show-preloader="showRealizedPreloader"
+    />
     <ContactInformation />
     <MainFooter />
   </div>
@@ -28,7 +34,9 @@ export default {
   data() {
     return {
       realizedObjects: [],
-      actualObjects: []
+      actualObjects: [],
+      showActualPreloader: true,
+      showRealizedPreloader: true
     };
   },
   created() {
@@ -40,6 +48,7 @@ export default {
         .get("common/real-estate-featured?realized=true&arc=false")
         .then(res => {
           this.realizedObjects = res.data.data;
+          this.showRealizedPreloader = false;
         });
     },
     getActualObjects() {
@@ -49,6 +58,7 @@ export default {
         )
         .then(res => {
           this.actualObjects = res.data.data;
+          this.showActualPreloader = false;
         });
     },
     getObjects() {

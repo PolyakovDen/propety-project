@@ -2,7 +2,16 @@
   <div class="wrapper">
     <Header />
     <MainSection :title="title" :description="description" />
-    <div class="list-wrapper">
+    <div v-if="showPreloader" class="preloader-wrapper">
+      <v-progress-circular
+        class="d-flex justify-center align-center"
+        :size="70"
+        :width="7"
+        color="#1e2d3b"
+        indeterminate
+      />
+    </div>
+    <div v-else class="list-wrapper">
       <div class="list">
         <ObjectCard
           v-for="(object, index) in objects"
@@ -32,6 +41,10 @@ export default {
     },
     description: {
       type: String
+    },
+    showPreloader: {
+      type: Boolean,
+      default: false
     }
   },
   components: {

@@ -5,6 +5,7 @@
     description="Доходная недвижимость один из лучших инструментов для сохранения и приумножения вашего капитала.
       Правильно инвестируя в недвижимость вы получаете пассивный доход от сдачи в аренду с минимальными рисками.
       Как говорят наши сотрудники - «работает тот, кому нечего сдать в аренду»"
+    :show-preloader="showPreloader"
   />
 </template>
 
@@ -17,7 +18,8 @@ export default {
   },
   data() {
     return {
-      objects: []
+      objects: [],
+      showPreloader: true
     };
   },
   created() {
@@ -31,6 +33,7 @@ export default {
         )
         .then(res => {
           this.objects = res.data.data;
+          this.showPreloader = false;
         });
     }
   }

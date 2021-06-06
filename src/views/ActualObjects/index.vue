@@ -1,5 +1,9 @@
 <template>
-  <property-template title="Актуальные объекты" :objects="objects" />
+  <property-template
+    title="Актуальные объекты"
+    :objects="objects"
+    :show-preloader="showPreloader"
+  />
 </template>
 
 <script>
@@ -10,7 +14,8 @@ export default {
   },
   data() {
     return {
-      objects: []
+      objects: [],
+      showPreloader: true
     };
   },
   created() {
@@ -24,6 +29,7 @@ export default {
         )
         .then(res => {
           this.objects = res.data.data;
+          this.showPreloader = false;
         });
     }
   }

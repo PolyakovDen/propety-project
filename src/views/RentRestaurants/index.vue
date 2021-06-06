@@ -6,6 +6,7 @@
       благодаря этому мы получаем закрытую информацию об освободившихся площадях.
       Не всегда информацию о продаже или аренде действующего ресторана можно афишировать, что б не навредить его репутации,
       по этому обращайтесь к нам и мы поможем Вам подобрать оптимальный объект для вашего бизнеса!"
+    :show-preloader="showPreloader"
   />
 </template>
 
@@ -17,7 +18,8 @@ export default {
     PropertyTemplate
   },
   metaInfo: {
-    title: "Аренда ресторанов"
+    title: "Аренда ресторанов",
+    showPreloader: true
   },
   data() {
     return {
@@ -35,6 +37,7 @@ export default {
         )
         .then(res => {
           this.objects = res.data.data;
+          this.showPreloader = false;
         });
     }
   }

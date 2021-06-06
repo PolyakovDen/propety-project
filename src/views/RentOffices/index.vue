@@ -5,6 +5,7 @@
     description="Имея большую базу данных офисных помещений и работая с большинством бизнес центров города Киева наши
       сотрудники помогут вам подобрать офисное помещение соответсвующее вашим критериям поиска.
       Владельцам офисных помещений мы поможем найти стабильных арендаторов."
+    :show-preloader="showPreloader"
   />
 </template>
 
@@ -20,7 +21,8 @@ export default {
   },
   data() {
     return {
-      objects: []
+      objects: [],
+      showPreloader: true
     };
   },
   created() {
@@ -34,6 +36,7 @@ export default {
         )
         .then(res => {
           this.objects = res.data.data;
+          this.showPreloader = false;
         });
     }
   }

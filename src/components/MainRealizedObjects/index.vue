@@ -3,7 +3,23 @@
     <v-container>
       <Title class="mt-10" title="Реализованные объекты" />
       <v-row class="mt-10 mb-10" justify="center">
-        <v-col cols="12" xl="6" lg="9" md="12" sm="12">
+        <v-col
+          v-if="showPreloader"
+          class="d-flex align-center justify-center"
+          cols="12"
+          xl="6"
+          lg="9"
+          md="12"
+          sm="12"
+        >
+          <v-progress-circular
+            :size="70"
+            :width="7"
+            color="#1e2d3b"
+            indeterminate
+          />
+        </v-col>
+        <v-col v-else cols="12" xl="6" lg="9" md="12" sm="12">
           <div class="objects-list d-flex justify-space-between flex-wrap">
             <ObjectCard
               class="mt-10 mr-3"
@@ -37,7 +53,11 @@ export default {
     ObjectCard
   },
   props: {
-    objects: {}
+    objects: {},
+    showPreloader: {
+      type: Boolean,
+      default: false
+    }
   }
 };
 </script>

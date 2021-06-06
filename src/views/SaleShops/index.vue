@@ -7,6 +7,7 @@
       Собственнику помещения мы поможем подобрать оптимального арендатора.
       Арендатору предоставим лучшие локации для его бизнеса.
       Для получения максимального результата оставляйте свои запросы нашим специалистам."
+    :show-preloader="showPreloader"
   />
 </template>
 
@@ -22,7 +23,8 @@ export default {
   },
   data() {
     return {
-      objects: []
+      objects: [],
+      showPreloader: true
     };
   },
   created() {
@@ -34,6 +36,7 @@ export default {
         .get("common/real-estate-featured?rec_ids[]=3&ct=1&realized=false")
         .then(res => {
           this.objects = res.data.data;
+          this.showPreloader = false;
         });
     }
   }
