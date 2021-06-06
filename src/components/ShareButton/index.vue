@@ -37,7 +37,7 @@
           >
             <img
               class="sharing-item"
-              src="../../assets/share-vb.png"
+              src="@/assets/share-vb.png"
               alt="Viber"
               width="45"
               height="45"

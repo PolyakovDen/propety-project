@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0">
       <div class="d-flex justify-space-between">
         <a class="logo" href="/">
-          <img src="../../assets/logo.png" width="100" height="40" />
+          <img src="@/assets/logo.png" width="100" height="40" />
         </a>
         <v-spacer />
         <v-toolbar-items class="hidden-sm-and-down">

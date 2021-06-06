@@ -36,7 +36,7 @@
               </div>
               <v-img
                 class="logo mt-12"
-                src="../../assets/logo-blue.png"
+                src="@/assets/logo-blue.png"
                 max-width="125"
                 max-height="57"
               />

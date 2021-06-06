@@ -14,7 +14,7 @@
         <v-col cols="12" xl="7" lg="9" md="12" sm="12">
           <v-img
             class="logo"
-            src="../../assets/logo.png"
+            src="@/assets/logo.png"
             max-width="140"
             max-height="65"
           />

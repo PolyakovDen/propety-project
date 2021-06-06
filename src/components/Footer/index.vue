@@ -5,7 +5,7 @@
         <div class="address">
           <v-img
             class="icon"
-            src="../../assets/home.png"
+            src="@/assets/home.png"
             max-width="28"
             max-height="22"
           />
@@ -14,7 +14,7 @@
         <div class="telephone">
           <v-img
             class="icon"
-            src="../../assets/phone-call.png"
+            src="@/assets/phone-call.png"
             max-width="25"
             max-height="25"
           />
@@ -25,7 +25,7 @@
         <p>Компания комерческой недвижимости АКМ © 2021</p>
         <v-img
           class="logo"
-          src="../../assets/logo.png"
+          src="@/assets/logo.png"
           max-width="50"
           max-height="22"
         />

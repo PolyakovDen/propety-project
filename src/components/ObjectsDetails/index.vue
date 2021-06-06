@@ -118,7 +118,7 @@ export default {
 <style scoped lang="scss">
 .main-wrapper {
   min-height: 100%;
-  background-image: url("../../assets/bg-object.png");
+  background-image: url("../../assets/bg-main.png");
   background-position: top;
   background-size: cover;
   display: flex;

@@ -48,28 +48,28 @@
         <div class="social-information">
           <v-img
             class="logo"
-            src="../../assets/logo.png"
+            src="@/assets/logo.png"
             max-width="140"
             max-height="65"
           />
           <div class="socials-list">
             <a href="https://t.me/+380971477788">
               <v-img
-                src="../../assets/telegram.png"
+                src="@/assets/telegram.png"
                 max-width="31"
                 max-height="31"
               />
             </a>
             <a href="https://api.whatsapp.com/send?phone=380971477788">
               <v-img
-                src="../../assets/whatsapp.png"
+                src="@/assets/whatsapp.png"
                 max-width="31"
                 max-height="31"
               />
             </a>
             <a href="viber://chat/?number=%2B380971477788" target="_blank">
               <v-img
-                src="../../assets/viber.png"
+                src="@/assets/viber.png"
                 max-width="31"
                 max-height="31"
               />

@@ -2,7 +2,7 @@
   <div v-if="showSlides" class="slider-wrapper">
     <img
       class="button-prev"
-      src="../../assets/next.png"
+      src="@/assets/next.png"
       alt=""
       height="57"
       width="31"
@@ -17,7 +17,7 @@
     </swiper>
     <img
       class="button-next"
-      src="../../assets/next.png"
+      src="@/assets/next.png"
       alt=""
       height="57"
       width="31"

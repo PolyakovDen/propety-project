@@ -41,9 +41,6 @@ import Button from "./Button";
 export default {
   components: {
     Button
-  },
-  data: () => ({})
+  }
 };
 </script>
-
-<style scoped></style>

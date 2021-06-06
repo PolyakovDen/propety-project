@@ -11,7 +11,7 @@
         <v-col cols="12">
           <v-img
             class="logo"
-            src="../../assets/logo.png"
+            src="@/assets/logo.png"
             max-width="220"
             max-height="100"
           />
@@ -21,7 +21,7 @@
           <div class="item">
             <v-img
               class="item-logo"
-              src="../../assets/dot-arrow.png"
+              src="@/assets/dot-arrow.png"
               max-width="34"
               max-height="65"
             />
@@ -34,7 +34,7 @@
           <div class="item">
             <v-img
               class="item-logo"
-              src="../../assets/dot-arrow.png"
+              src="@/assets/dot-arrow.png"
               max-width="34"
               max-height="65"
             />
@@ -48,7 +48,7 @@
           <div class="item">
             <v-img
               class="item-logo"
-              src="../../assets/dot-arrow.png"
+              src="@/assets/dot-arrow.png"
               max-width="34"
               max-height="65"
             />
@@ -62,7 +62,7 @@
           <div class="item">
             <v-img
               class="item-logo"
-              src="../../assets/dot-arrow.png"
+              src="@/assets/dot-arrow.png"
               max-width="34"
               max-height="65"
             />
@@ -76,7 +76,7 @@
           <div class="item">
             <v-img
               class="item-logo"
-              src="../../assets/dot-arrow.png"
+              src="@/assets/dot-arrow.png"
               max-width="34"
               max-height="65"
             />
@@ -93,10 +93,6 @@
     </v-container>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style scoped>
 .wrapper {
