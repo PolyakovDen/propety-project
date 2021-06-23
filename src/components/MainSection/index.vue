@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <v-container fill-height>
+    <v-container>
       <v-row
         class="mt-10 mb-10"
         justify="space-between"
