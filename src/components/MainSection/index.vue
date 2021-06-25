@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <v-container>
+    <v-container fill-height>
       <v-row
         class="mt-10 mb-10"
         justify="space-between"
@@ -74,7 +74,7 @@ export default {
 <style scoped>
 .wrapper {
   height: 969px;
-  min-height: 100vh;
+  /*min-height: 100vh;*/
   background-image: url("../../assets/bg-main.png");
   background-position: center;
   background-size: cover;
