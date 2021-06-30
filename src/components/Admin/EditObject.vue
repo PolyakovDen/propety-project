@@ -248,6 +248,23 @@
         </div>
       </v-form>
     </v-card-text>
+    <v-dialog
+      v-if="dialog"
+      v-model="dialog"
+      persistent
+      width="300"
+    >
+      <v-card color="primary" dark>
+        <v-card-text>
+          Пожалуйста, подождите, загружаются фотографии
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mt-2"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -317,7 +334,8 @@ export default {
     showImageInput: false,
     showImagesInput: false,
     imgUrl: null,
-    showPreloader: true
+    showPreloader: true,
+    dialog: false
   }),
   async created() {
     this.imgUrl = process.env.VUE_APP_IMG_URL;
@@ -377,7 +395,6 @@ export default {
           if (!this.mainImage) {
             this.showImageInput = true;
           }
-          console.log(this.formData);
           this.showPreloader = false;
         })
         .catch(e => {
@@ -431,6 +448,7 @@ export default {
     },
     async validate() {
       if (this.$refs.form.validate()) {
+        this.dialog = true;
         await this.axios.put(
           `admin/real-estate/${this.$route.params.id}`,
           {
@@ -468,6 +486,7 @@ export default {
         ) {
           await this.setImages();
         }
+        this.dialog = false;
         await this.$router.push({ name: "allObjects" });
       }
     },
@@ -512,16 +531,18 @@ export default {
   }
 }
 .image-wrapper {
-  width: 170px;
-  height: 170px;
+  width: 200px;
+  height: 200px;
   margin-bottom: 20px;
   margin-right: 20px;
   overflow: hidden;
 }
 
 .image {
-  height: 100%;
-  width: auto;
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
 }
 .images {
   display: flex;
