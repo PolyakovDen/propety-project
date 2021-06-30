@@ -116,28 +116,30 @@
           :menu-props="{ bottom: true, offsetY: true }"
         ></v-select>
 
-        <v-text-field
+        <v-select
           v-model="formData.agent"
+          :items="agentsItems"
           :rules="mainRule"
+          item-text="type"
+          item-value="value"
           label="Агент"
           required
           outlined
-        ></v-text-field>
+          :menu-props="{ bottom: true, offsetY: true }"
+        ></v-select>
 
         <v-text-field
           v-model="formData.telephone"
-          :rules="mainRule"
           label="Номер телефона"
           v-mask="'+38(###)-###-##-##'"
-          required
+          disabled
           outlined
         ></v-text-field>
 
         <v-text-field
           v-model="formData.email"
-          :rules="emailRules"
           label="E-mail"
-          required
+          disabled
           outlined
         ></v-text-field>
 
@@ -195,6 +197,7 @@
         ></v-file-input>
 
         <div class="image-wrapper" v-if="!showImageInput">
+          Главное фото:
           <img class="image" :src="`${imgUrl}/${mainImage}`" />
         </div>
 
@@ -218,6 +221,7 @@
           label="Добавить фотографии"
         ></v-file-input>
 
+        <span v-if="!showImagesInput">Другие фото:</span>
         <div v-if="!showImagesInput" class="images">
           <div class="image-wrapper" v-for="(image, i) in images" :key="i">
             <img class="image" :src="`${imgUrl}/${image.url}`" />
@@ -230,12 +234,12 @@
           </div>
         </div>
 
-        <div class="controls mt-5 d-flex justify-space-between">
-          <v-btn v-if="!showImageInput" @click="deleteMainImage">
+        <div class="controls mt-5 d-flex justify-space-between flex-wrap">
+          <v-btn class="mb-4" v-if="!showImageInput" @click="deleteMainImage">
             Удалить главное фото
           </v-btn>
-          <v-btn v-if="!showImagesInput" @click="deleteImages">
-            Удалить второстепенные фото
+          <v-btn class="mb-4" v-if="!showImagesInput" @click="deleteImages">
+            Удалить другие фото
           </v-btn>
           <v-btn
             :disabled="!valid"
@@ -248,12 +252,7 @@
         </div>
       </v-form>
     </v-card-text>
-    <v-dialog
-      v-if="dialog"
-      v-model="dialog"
-      persistent
-      width="300"
-    >
+    <v-dialog v-if="dialog" v-model="dialog" persistent width="300">
       <v-card color="primary" dark>
         <v-card-text>
           Пожалуйста, подождите, загружаются фотографии
@@ -291,8 +290,8 @@ export default {
       { type: "Аренда", value: 2 }
     ],
     commissionItems: [
-      { type: "С комиссией!", value: "false" },
-      { type: "Без комисси!", value: "true" }
+      { type: "С комиссией!", value: "true" },
+      { type: "Без комисси!", value: "false" }
     ],
     currencyItems: [
       { type: "USD", value: 1 },
@@ -309,6 +308,28 @@ export default {
     archievedItems: [
       { type: "Да", value: "true" },
       { type: "Нет", value: "false" }
+    ],
+    agentsItems: [
+      {
+        type: "Кирилюк Александр",
+        value: "Кирилюк Александр"
+      },
+      {
+        type: "Фильченков Дмитрий",
+        value: "Фильченков Дмитрий"
+      },
+      {
+        type: "Неилко Галина",
+        value: "Неилко Галина"
+      },
+      {
+        type: "Геннадий Кушманцев",
+        value: "Геннадий Кушманцев"
+      },
+      {
+        type: "Москаленко Александр",
+        value: "Москаленко Александр"
+      }
     ],
     formData: {
       title: "",
@@ -337,6 +358,28 @@ export default {
     showPreloader: true,
     dialog: false
   }),
+  watch: {
+    "formData.agent": {
+      handler(val) {
+        if (val == "Кирилюк Александр") {
+          this.formData.telephone = "0672321325";
+          this.formData.email = "2321325@gmail.com";
+        } else if (val == "Фильченков Дмитрий") {
+          this.formData.telephone = "0936164919";
+          this.formData.email = "akm2.kiev@gmail.com";
+        } else if (val == "Неилко Галина") {
+          this.formData.telephone = "0960202828";
+          this.formData.email = "lady.nelko82@gmail.com";
+        } else if (val == "Геннадий Кушманцев") {
+          this.formData.telephone = "0934494130";
+          this.formData.email = "KushG.akm2@gmail.com";
+        } else {
+          this.formData.telephone = "0675364060";
+          this.formData.email = "a.n.moskalenko14@gmail.com";
+        }
+      }
+    }
+  },
   async created() {
     this.imgUrl = process.env.VUE_APP_IMG_URL;
     await this.getObjectTypes();
@@ -366,6 +409,7 @@ export default {
       this.axios
         .get(`common/real-estate/${objectId}`)
         .then(res => {
+          console.log(res);
           this.formData.title = res.data.title;
           this.formData.description = res.data.description;
           this.formData.objectType = res.data.real_estate_categories.map(
@@ -379,13 +423,13 @@ export default {
           this.formData.currency = res.data.currency_id;
           this.formData.price = res.data.price;
           this.formData.deal = res.data.contract_type_id;
-          this.formData.commission = res.data.has_commision;
+          this.formData.commission = this.checkType(res.data.has_commision);
           this.formData.agent = res.data.agent;
           this.formData.telephone = res.data.mobile_number;
           this.formData.email = res.data.email;
-          this.formData.isRealized = res.data.realized;
-          this.formData.isSlider = res.data.show_in_slider;
-          this.formData.archieved = res.data.archieved;
+          this.formData.isRealized = this.checkType(res.data.realized);
+          this.formData.isSlider = this.checkType(res.data.show_in_slider);
+          this.formData.archieved = this.checkType(res.data.archieved);
           this.mainImage = res.data.main_image_url;
           this.images = res.data.images;
 
@@ -400,6 +444,13 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    checkType(data) {
+      if (data == 0) {
+        return "false";
+      } else {
+        return "true";
+      }
     },
     clearMainImage() {
       this.mainImageUrl = null;
@@ -448,6 +499,7 @@ export default {
     },
     async validate() {
       if (this.$refs.form.validate()) {
+        console.log(this.formData);
         this.dialog = true;
         await this.axios.put(
           `admin/real-estate/${this.$route.params.id}`,
@@ -462,7 +514,7 @@ export default {
             agent: this.formData.agent,
             mobile_number: this.formData.telephone,
             email: this.formData.email,
-            has_commision: this.formData.commission,
+            has_commision: 1,
             real_estate_categories: this.formData.objectType[0].value
               ? this.formData.objectType.map(el => el.value)
               : this.formData.objectType,
@@ -531,8 +583,6 @@ export default {
   }
 }
 .image-wrapper {
-  width: 200px;
-  height: 200px;
   margin-bottom: 20px;
   margin-right: 20px;
   overflow: hidden;
