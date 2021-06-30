@@ -85,7 +85,6 @@ export default {
       });
     },
     async setImages(images) {
-      console.log(images)
       if (images) {
         let data = new FormData();
         data.append("real_estate_id", this.objectId);
