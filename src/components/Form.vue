@@ -178,29 +178,36 @@
           <img class="image" :src="mainImageUrl" />
         </div>
 
-        <v-file-input
-          v-model="images"
-          show-size
-          accept="image/png, image/jpeg, image/bmp"
-          prepend-icon="mdi-camera"
-          counter
-          outlined
-          dense
-          multiple
-          @change="getMainImages"
-          label="Добавить фотографии"
-        ></v-file-input>
+        <!--        <v-file-input-->
+        <!--          v-model="images"-->
+        <!--          show-size-->
+        <!--          accept="image/png, image/jpeg, image/bmp"-->
+        <!--          prepend-icon="mdi-camera"-->
+        <!--          counter-->
+        <!--          outlined-->
+        <!--          dense-->
+        <!--          multiple-->
+        <!--          @change="getMainImages"-->
+        <!--          label="Добавить фотографии"-->
+        <!--        ></v-file-input>-->
 
-        <div v-if="mainImages" class="images">
-          <div class="image-wrapper" v-for="(image, i) in mainImages" :key="i">
-            <img class="image" :src="image" />
-          </div>
-        </div>
+        <!--        <div v-if="mainImages" class="images">-->
+        <!--          <div class="image-wrapper" v-for="(image, i) in mainImages" :key="i">-->
+        <!--            <img class="image" :src="image" />-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <multiple-image-uploader
+          @getMainImages="getMainImages"
+          @deleteImage="deleteImage"
+          :value="valueImages"
+          :images="mainImages"
+        />
 
         <v-btn
           :disabled="!valid"
           color="success"
-          class="mr-4"
+          class="mr-4 mt-4"
           @click="validate"
         >
           Добавить
@@ -211,82 +218,89 @@
 </template>
 
 <script>
+import MultipleImageUploader from "./MultipleImageUploader";
 export default {
-  data: () => ({
-    valid: true,
-    mainRule: [v => !!v || "Заполните поле"],
-    emailRules: [
-      v => !!v || "E-mail is required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-    ],
-    objectTypes: [],
-    objectTypeRules: [
-      v => !!v || "Заполните поле",
-      v => v.length <= 3 || "Максимальное количество объектов - три"
-    ],
-    dealItems: [
-      { type: "Продажа", value: 1 },
-      { type: "Аренда", value: 2 }
-    ],
-    commissionItems: [
-      { type: "Без комисси!", value: "false" },
-      { type: "С комиссией!", value: "true" }
-    ],
-    currencyItems: [
-      { type: "USD", value: 1 },
-      { type: "ГРН", value: 2 }
-    ],
-    realizedItems: [
-      { type: "Нет", value: "false" },
-      { type: "Да", value: "true" }
-    ],
-    sliderItems: [
-      { type: "Нет", value: "false" },
-      { type: "Да", value: "true" }
-    ],
-    agentsItems: [
-      {
-        type: "Кирилюк Александр",
-        value: "Кирилюк Александр"
+  components: {
+    MultipleImageUploader
+  },
+  data() {
+    return {
+      valid: true,
+      mainRule: [v => !!v || "Заполните поле"],
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
+      objectTypes: [],
+      objectTypeRules: [
+        v => !!v || "Заполните поле",
+        v => v.length <= 3 || "Максимальное количество объектов - три"
+      ],
+      dealItems: [
+        { type: "Продажа", value: 1 },
+        { type: "Аренда", value: 2 }
+      ],
+      commissionItems: [
+        { type: "Без комисси!", value: "false" },
+        { type: "С комиссией!", value: "true" }
+      ],
+      currencyItems: [
+        { type: "USD", value: 1 },
+        { type: "ГРН", value: 2 }
+      ],
+      realizedItems: [
+        { type: "Нет", value: "false" },
+        { type: "Да", value: "true" }
+      ],
+      sliderItems: [
+        { type: "Нет", value: "false" },
+        { type: "Да", value: "true" }
+      ],
+      agentsItems: [
+        {
+          type: "Кирилюк Александр",
+          value: "Кирилюк Александр"
+        },
+        {
+          type: "Фильченков Дмитрий",
+          value: "Фильченков Дмитрий"
+        },
+        {
+          type: "Неилко Галина",
+          value: "Неилко Галина"
+        },
+        {
+          type: "Геннадий Кушманцев",
+          value: "Геннадий Кушманцев"
+        },
+        {
+          type: "Москаленко Александр",
+          value: "Москаленко Александр"
+        }
+      ],
+      formData: {
+        title: "",
+        description: "",
+        objectType: [],
+        address: "",
+        area: "",
+        currency: "",
+        price: "",
+        deal: null,
+        commission: null,
+        agent: "",
+        telephone: "",
+        email: "",
+        isRealized: false,
+        isSlider: false
       },
-      {
-        type: "Фильченков Дмитрий",
-        value: "Фильченков Дмитрий"
-      },
-      {
-        type: "Неилко Галина",
-        value: "Неилко Галина"
-      },
-      {
-        type: "Геннадий Кушманцев",
-        value: "Геннадий Кушманцев"
-      },
-      {
-        type: "Москаленко Александр",
-        value: "Москаленко Александр"
-      }
-    ],
-    formData: {
-      title: "",
-      description: "",
-      objectType: [],
-      address: "",
-      area: "",
-      currency: "",
-      price: "",
-      deal: null,
-      commission: null,
-      agent: "",
-      telephone: "",
-      email: "",
-      isRealized: false,
-      isSlider: false
-    },
-    mainImage: null,
-    images: null,
-    mainImageUrl: null,
-    mainImages: null
-  }),
+      mainImage: null,
+      images: null,
+      mainImageUrl: null,
+      mainImages: null,
+      valueImages: []
+    };
+  },
   watch: {
     "formData.agent": {
       handler(val) {
@@ -335,10 +349,15 @@ export default {
     },
     getMainImages(e) {
       if (e) {
-        this.mainImages = this.images.map(el => {
+        this.valueImages = e;
+        this.mainImages = e.map(el => {
           return URL.createObjectURL(el);
         });
       }
+    },
+    deleteImage(index) {
+      this.valueImages.splice(index, 1)
+      this.mainImages.splice(index, 1);
     },
     deleteMainImage() {
       this.mainImageUrl = null;
@@ -350,7 +369,7 @@ export default {
           this.formData,
           this.pricePerMeter,
           this.mainImage,
-          this.images
+          this.valueImages
         );
       }
     }

@@ -107,7 +107,7 @@ export default {
     objectImages() {
       if (this.object && this.object.images && this.object.images.length > 0) {
         const images = this.object.images.map(el => el.url);
-        images.push(this.object.main_image_url);
+        images.unshift(this.object.main_image_url);
 
         return images;
       } else {
