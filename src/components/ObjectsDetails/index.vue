@@ -41,12 +41,15 @@
                   <p v-if="!object.realized">
                     <b class="mr-4">E-mail:</b>{{ object.email }}
                   </p>
-                  <div class="buttons-group">
-                    <v-btn class="featured-btn mt-5" @click.stop="addToFavorite">
+                  <div v-if="!object.realized" class="buttons-group">
+                    <v-btn
+                      class="featured-btn mt-5"
+                      @click.stop="addToFavorite"
+                    >
                       <v-icon class="star mr-2">mdi-star</v-icon>
                       Добавить в избранное
                     </v-btn>
-                    <ShareButton v-if="!object.realized" :object="object" />
+                    <ShareButton :object="object" />
                   </div>
                 </div>
               </div>

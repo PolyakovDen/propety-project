@@ -350,6 +350,7 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
+        console.log(this.formData);
         this.$emit(
           "click",
           this.formData,

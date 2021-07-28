@@ -516,7 +516,7 @@ export default {
             agent: this.formData.agent,
             mobile_number: this.formData.telephone,
             email: this.formData.email,
-            has_commision: 1,
+            has_commision: this.formData.commission,
             real_estate_categories: this.formData.objectType[0].value
               ? this.formData.objectType.map(el => el.value)
               : this.formData.objectType,
