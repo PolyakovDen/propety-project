@@ -159,47 +159,17 @@
           :menu-props="{ bottom: true, offsetY: true }"
         ></v-select>
 
-        <v-file-input
-          :rules="mainRule"
-          show-size
-          accept="image/png, image/jpeg, image/bmp"
-          prepend-icon="mdi-camera"
-          counter
-          outlined
-          dense
-          label="Добавить главную фотографию"
-          ref="image"
-          @change="getMainImage"
-          @click:clear="deleteMainImage"
-          v-model="mainImage"
-        ></v-file-input>
-
-        <div class="image-wrapper" v-if="mainImageUrl">
-          <img class="image" :src="mainImageUrl" />
-        </div>
-
-        <!--        <v-file-input-->
-        <!--          v-model="images"-->
-        <!--          show-size-->
-        <!--          accept="image/png, image/jpeg, image/bmp"-->
-        <!--          prepend-icon="mdi-camera"-->
-        <!--          counter-->
-        <!--          outlined-->
-        <!--          dense-->
-        <!--          multiple-->
-        <!--          @change="getMainImages"-->
-        <!--          label="Добавить фотографии"-->
-        <!--        ></v-file-input>-->
-
-        <!--        <div v-if="mainImages" class="images">-->
-        <!--          <div class="image-wrapper" v-for="(image, i) in mainImages" :key="i">-->
-        <!--            <img class="image" :src="image" />-->
-        <!--          </div>-->
-        <!--        </div>-->
+        <image-uploader
+          @getMainImage="getMainImage"
+          @deleteMainImage="deleteMainImage"
+          :value="valueImage"
+          :main-image-url="mainImageUrl"
+        />
 
         <multiple-image-uploader
           @getMainImages="getMainImages"
           @deleteImage="deleteImage"
+          @changeImages="changeImages"
           :value="valueImages"
           :images="mainImages"
         />
@@ -219,9 +189,11 @@
 
 <script>
 import MultipleImageUploader from "./MultipleImageUploader";
+import ImageUploader from "./ImageUploader";
 export default {
   components: {
-    MultipleImageUploader
+    MultipleImageUploader,
+    ImageUploader
   },
   data() {
     return {
@@ -298,7 +270,8 @@ export default {
       images: null,
       mainImageUrl: null,
       mainImages: null,
-      valueImages: []
+      valueImages: [],
+      valueImage: []
     };
   },
   watch: {
@@ -344,7 +317,8 @@ export default {
     },
     getMainImage(e) {
       if (e) {
-        this.mainImageUrl = URL.createObjectURL(this.mainImage);
+        this.valueImage = e;
+        this.mainImageUrl = URL.createObjectURL(e[0]);
       }
     },
     getMainImages(e) {
@@ -355,11 +329,23 @@ export default {
         });
       }
     },
+    async changeImages(event) {
+      this.valueImages = await this.swap(
+        this.valueImages,
+        event.moved.oldIndex,
+        event.moved.newIndex
+      );
+    },
+    swap(arr, a, b) {
+      arr[a] = arr.splice(b, 1, arr[a])[0];
+      return arr;
+    },
     deleteImage(index) {
-      this.valueImages.splice(index, 1)
+      this.valueImages.splice(index, 1);
       this.mainImages.splice(index, 1);
     },
     deleteMainImage() {
+      this.valueImage = [];
       this.mainImageUrl = null;
     },
     validate() {
@@ -368,7 +354,7 @@ export default {
           "click",
           this.formData,
           this.pricePerMeter,
-          this.mainImage,
+          this.valueImage[0],
           this.valueImages
         );
       }
@@ -386,22 +372,5 @@ export default {
   .form {
     max-width: 100%;
   }
-}
-.image-wrapper {
-  width: 200px;
-  height: 200px;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  overflow: hidden;
-}
-.image {
-  display: block;
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-}
-.images {
-  display: flex;
-  flex-wrap: wrap;
 }
 </style>

@@ -14,27 +14,37 @@
       label="Добавить фотографии"
     >
     </v-file-input>
-    <div v-if="images && images.length > 0" class="images elevation-4">
-      <div class="image-wrapper" v-for="(image, i) in images" :key="i">
-        <div class="img">
-          <img class="image" :src="image" />
+    <div v-if="images && images.length > 0">
+      <draggable
+        :list="images"
+        @change="$emit('changeImages', $event)"
+        class="images elevation-4"
+      >
+        <div class="image-wrapper" v-for="(image, i) in images" :key="i">
+          <div class="img">
+            <img class="image" :src="image" />
+          </div>
+          <v-btn
+            class="delete-button pa-0"
+            @click="deleteImage(i)"
+            color="white"
+            width="30"
+            height="30"
+          >
+            <v-icon class="delete">mdi-delete-outline</v-icon>
+          </v-btn>
         </div>
-        <v-btn
-          class="delete-button pa-0"
-          @click="deleteImage(i)"
-          color="white"
-          width="30"
-          height="30"
-        >
-          <v-icon class="delete">mdi-delete-outline</v-icon>
-        </v-btn>
-      </div>
+      </draggable>
     </div>
   </div>
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
+  components: {
+    draggable
+  },
   props: {
     images: {
       default: null
