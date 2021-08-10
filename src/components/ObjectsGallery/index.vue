@@ -65,7 +65,7 @@ export default {
         touchRatio: 0.2,
         slideToClickedSlide: true,
         autoplay: {
-          delay: 10000,
+          delay: 5000,
           disableOnInteraction: true
         }
       },
